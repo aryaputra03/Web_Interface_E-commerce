@@ -6,7 +6,7 @@ import type { AxiosError } from "axios";
 import { loginSchema, type LoginSchema } from "../schemas/auth.schema";
 import { useLogin } from "../hooks/useLogin";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import { ErrorMessage } from "@/components/feedback-ui/ErrorMessage";
 
 export function LoginForm() {

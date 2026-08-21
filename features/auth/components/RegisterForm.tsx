@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { registerSchema, type RegisterSchema } from "../schemas/auth.schema";
 import { useRegister } from "../hooks/useRegister";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import { ErrorMessage } from "@/components/feedback-ui/ErrorMessage";
 
 export function RegisterForm() {

@@ -2,7 +2,7 @@ export * from "./badge";
 export * from "./button";
 export * from "./dialog";
 export * from "./empty-state";
-export * from "./Input";
+export * from "./input";
 export * from "./modal";
 export * from "./pagination";
 export * from "./select";
