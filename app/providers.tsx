@@ -7,7 +7,9 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { getQueryClient } from "@/lib/query-client";
 import { ToastProvider } from "@/components/ui/Toast";
 
-import "@/lib/axios-interceptors";
+import { bootstrapAuthInterceptors } from "@/features/auth/lib/bootstrapAuthInterceptors";
+
+bootstrapAuthInterceptors();
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
