@@ -3,6 +3,7 @@
 Prinsip yang dipakai: **feature-based modular architecture**. Setiap fitur (auth, pos-session, products, dst) itu folder mandiri isi lengkap (component, hook, service, schema, type sendiri) — bukan dipisah per-jenis-file (semua component di satu folder besar, semua hook di folder lain, dst). Tujuannya: kalau ada bug di fitur X, semua kode terkait X ada di satu tempat — nggak perlu loncat ke 5 folder berbeda buat trace satu alur.
 
 Aturan folder:
+
 - `app/` → HANYA routing & layout (page.tsx, layout.tsx). Tidak ada logic bisnis di sini — cuma import dari `features/`.
 - `features/` → jantung aplikasi. Modular per-fitur.
 - `components/` → HANYA komponen yang benar-benar dipakai lintas fitur (button, input, modal generik). Kalau cuma dipakai 1 fitur, taruh di dalam `features/<fitur>/components/`.
@@ -86,7 +87,7 @@ kasir-pintar-fe/
 │   │   ├── schemas/
 │   │   │   └── auth.schema.ts             # Zod: loginSchema, registerSchema
 │   │   ├── store/
-│   │   │   └── authStore.ts               # Zustand — accessToken di memory, user, isAuthenticated
+│   │   │   └── authStore.ts               # Zustand —
 │   │   ├── types/
 │   │   │   └── auth.types.ts
 │   │   └── index.ts                       # barrel export
@@ -327,17 +328,17 @@ kasir-pintar-fe/
 
 ## 2. Kenapa Disusun Begini (Alasan per Keputusan)
 
-| Keputusan | Alasan untuk Debugging |
-|---|---|
-| `features/<nama>/` isi lengkap (component + hook + service + type) | Bug di POS Session? Buka `features/pos-session/`, semua penyebab ada di situ. Tidak perlu grep lintas folder. |
-| `services/` terpisah dari `hooks/` di tiap fitur | Kalau response API berubah bentuk, cukup ubah 1 file `*.service.ts` — hook & komponen tidak disentuh. Memisahkan "bug di pemanggilan API" vs "bug di state/UI". |
-| `schemas/` (Zod) terpisah dari `types/` | Validasi form vs kontrak tipe data API adalah dua hal beda — kalau validasi salah tapi tipe API benar (atau sebaliknya), gampang isolasi. |
-| `index.ts` (barrel export) di tiap fitur | Fitur lain hanya boleh import dari `features/x` (bukan dalam-dalam ke `features/x/hooks/useFoo`). Kalau ada import "nyasar" lintas internal fitur, itu tanda arsitektur bocor — gampang ketahuan saat review. |
-| `lib/axios-interceptors.ts` terpisah dari `lib/axios.ts` | Bug auth/refresh-token (yang paling sering bikin pusing) punya 1 titik investigasi tunggal. |
-| `lib/query-keys.ts` sentral | Query key yang salah ketik itu penyebab #1 data "nggak update-update" di TanStack Query. Sentralisasi = 1 tempat cek. |
-| Route group `(public)` vs `(auth)` vs `admin/` | Layout beda (navbar customer vs sidebar admin vs kosong di login) tidak saling tabrak; bug layout admin tidak bisa "bocor" ke halaman publik. |
-| `components/ui/` vs `features/*/components/` | Kalau bug tampil di banyak halaman → cek `components/ui/`. Kalau bug cuma di 1 halaman → cek `features/<itu-saja>/components/`. Lokasi bug langsung kepersempit dari nama folder. |
-| `AdminGuard.tsx` sebagai 1 komponen wrapper | Semua route admin lewat 1 pintu proteksi — kalau ada admin yang "kebobolan" akses tanpa login, cukup 1 file untuk dicek. |
+| Keputusan                                                          | Alasan untuk Debugging                                                                                                                                                                                        |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `features/<nama>/` isi lengkap (component + hook + service + type) | Bug di POS Session? Buka `features/pos-session/`, semua penyebab ada di situ. Tidak perlu grep lintas folder.                                                                                                 |
+| `services/` terpisah dari `hooks/` di tiap fitur                   | Kalau response API berubah bentuk, cukup ubah 1 file `*.service.ts` — hook & komponen tidak disentuh. Memisahkan "bug di pemanggilan API" vs "bug di state/UI".                                               |
+| `schemas/` (Zod) terpisah dari `types/`                            | Validasi form vs kontrak tipe data API adalah dua hal beda — kalau validasi salah tapi tipe API benar (atau sebaliknya), gampang isolasi.                                                                     |
+| `index.ts` (barrel export) di tiap fitur                           | Fitur lain hanya boleh import dari `features/x` (bukan dalam-dalam ke `features/x/hooks/useFoo`). Kalau ada import "nyasar" lintas internal fitur, itu tanda arsitektur bocor — gampang ketahuan saat review. |
+| `lib/axios-interceptors.ts` terpisah dari `lib/axios.ts`           | Bug auth/refresh-token (yang paling sering bikin pusing) punya 1 titik investigasi tunggal.                                                                                                                   |
+| `lib/query-keys.ts` sentral                                        | Query key yang salah ketik itu penyebab #1 data "nggak update-update" di TanStack Query. Sentralisasi = 1 tempat cek.                                                                                         |
+| Route group `(public)` vs `(auth)` vs `admin/`                     | Layout beda (navbar customer vs sidebar admin vs kosong di login) tidak saling tabrak; bug layout admin tidak bisa "bocor" ke halaman publik.                                                                 |
+| `components/ui/` vs `features/*/components/`                       | Kalau bug tampil di banyak halaman → cek `components/ui/`. Kalau bug cuma di 1 halaman → cek `features/<itu-saja>/components/`. Lokasi bug langsung kepersempit dari nama folder.                             |
+| `AdminGuard.tsx` sebagai 1 komponen wrapper                        | Semua route admin lewat 1 pintu proteksi — kalau ada admin yang "kebobolan" akses tanpa login, cukup 1 file untuk dicek.                                                                                      |
 
 ---
 
@@ -354,18 +355,21 @@ Tiap `service.ts` isinya **hanya** fungsi pemanggil axios (tidak ada logic UI/st
 
 ```ts
 // features/pos-session/services/posSession.service.ts
-import { axiosInstance } from '@/lib/axios';
-import type { PosSession, CheckoutResponse } from '../types/posSession.types';
+import { axiosInstance } from "@/lib/axios";
+import type { PosSession, CheckoutResponse } from "../types/posSession.types";
 
 export const posSessionService = {
   getActive: () =>
-    axiosInstance.get<{ success: boolean; data: PosSession[] }>('/pos-sessions/active'),
+    axiosInstance.get<{ success: boolean; data: PosSession[] }>(
+      "/pos-sessions/active",
+    ),
 
   checkout: (id: string, voucherCode: string | null) =>
-    axiosInstance.post<CheckoutResponse>(`/pos-sessions/${id}/checkout`, { voucherCode }),
+    axiosInstance.post<CheckoutResponse>(`/pos-sessions/${id}/checkout`, {
+      voucherCode,
+    }),
 
-  cancel: (id: string) =>
-    axiosInstance.post(`/pos-sessions/${id}/cancel`),
+  cancel: (id: string) => axiosInstance.post(`/pos-sessions/${id}/cancel`),
 };
 ```
 
