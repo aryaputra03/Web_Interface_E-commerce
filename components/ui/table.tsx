@@ -2,8 +2,8 @@
 
 import {
   flexRender,
-  getCoreRowModel,
-  useReactTable,
+  createCoreRowModel,
+  ReactTable,
   type ColumnDef,
   type RowData,
 } from "@tanstack/react-table";
@@ -32,10 +32,10 @@ export function Table<TData extends RowData>({
   className,
 }: DataTableProps<TData>) {
   // eslint-disable-next-line react-hooks/incompatible-library
-  const table = useReactTable({
+  const table = ReactTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
+    getCoreRowModel: createCoreRowModel(),
   });
 
   if (loading) {
