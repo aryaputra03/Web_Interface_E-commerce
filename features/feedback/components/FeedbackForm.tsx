@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import type { AxiosError } from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@/components/feedback-ui/ErrorMessage";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
+import { useRateLimitCountdown } from "@/lib/hooks/useRateLimitCountdown";
 import { useSubmitFeedback } from "../hooks/useSubmitFeedback";
 import {
   feedbackSchema,
@@ -15,8 +14,9 @@ import {
 } from "../schemas/feedback.schema";
 
 export function FeedbackForm() {
-  const [cooldownSeconds, setCooldownSeconds] = useState(0);
   const submitMutation = useSubmitFeedback();
+  const { cooldownSeconds, isRateLimited, handleRateLimitError } =
+    useRateLimitCountdown();
   const {
     register,
     handleSubmit,
@@ -26,31 +26,12 @@ export function FeedbackForm() {
     resolver: zodResolver(feedbackSchema),
   });
 
-  useEffect(() => {
-    if (cooldownSeconds === 0) return;
-
-    const timer = window.setTimeout(() => {
-      setCooldownSeconds((current) => Math.max(0, current - 1));
-    }, 1000);
-
-    return () => window.clearTimeout(timer);
-  }, [cooldownSeconds]);
-
   function onSubmit(values: FeedbackSchema) {
     submitMutation.mutate(values, {
       onSuccess: () => reset(),
-      onError: (error) => {
-        const axiosError = error as AxiosError;
-
-        if (axiosError.response?.status === 429) {
-          const retryAfter = Number(axiosError.response.headers["retry-after"]);
-          setCooldownSeconds(retryAfter > 0 ? retryAfter : 60);
-        }
-      },
+      onError: handleRateLimitError,
     });
   }
-
-  const isRateLimited = cooldownSeconds > 0;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>

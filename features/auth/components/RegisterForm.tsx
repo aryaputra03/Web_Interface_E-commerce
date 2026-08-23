@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { registerSchema, type RegisterSchema } from "../schemas/auth.schema";
 import { useRegister } from "../hooks/useRegister";
+import { useRateLimitCountdown } from "@/lib/hooks/useRateLimitCountdown";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
 import { ErrorMessage } from "@/components/feedback-ui/ErrorMessage";
@@ -18,12 +19,14 @@ export function RegisterForm() {
   });
 
   const registerMutation = useRegister();
+  const { cooldownSeconds, isRateLimited, handleRateLimitError } =
+    useRateLimitCountdown();
 
   const onSubmit = (values: RegisterSchema) => {
     const { confirmPassword, ...payload } = values;
     void confirmPassword;
 
-    registerMutation.mutate(payload);
+    registerMutation.mutate(payload, { onError: handleRateLimitError });
   };
 
   return (
@@ -54,13 +57,19 @@ export function RegisterForm() {
         {...register("confirmPassword")}
       />
 
-      {registerMutation.isError && (
+      {registerMutation.isError && !isRateLimited && (
         <ErrorMessage message="Tidak dapat terhubung ke server. Silakan coba lagi." />
+      )}
+      {isRateLimited && (
+        <ErrorMessage
+          message={`Terlalu banyak percobaan. Coba lagi dalam ${cooldownSeconds} detik.`}
+        />
       )}
 
       <Button
         type="submit"
         isLoading={registerMutation.isPending}
+        disabled={isRateLimited}
         className="w-full"
       >
         Daftar

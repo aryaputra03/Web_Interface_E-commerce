@@ -1,5 +1,6 @@
 import type { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { axiosInstance } from "./axios";
+import { showToast } from "./toast-bridge";
 
 interface AuthHandlers {
   getAccessToken: () => string | null;
@@ -31,7 +32,10 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-type RetryableConfig = InternalAxiosRequestConfig & { _retry?: boolean };
+type RetryableConfig = InternalAxiosRequestConfig & {
+  _retry?: boolean;
+  _rateLimitRetried?: boolean;
+};
 
 let isRefreshing = false;
 let pendingQueue: Array<{
@@ -47,17 +51,52 @@ function flushQueue(error: unknown, token: string | null) {
   pendingQueue = [];
 }
 
+const SELF_HANDLED_RATE_LIMIT_PATHS = [
+  "/auth/login",
+  "/auth/register",
+  "/auth/google",
+  "/feedback",
+  "/reviews",
+  "/testimonials",
+];
+
+function isSelfHandledPath(url: string | undefined): boolean {
+  return !!url && SELF_HANDLED_RATE_LIMIT_PATHS.some((path) => url.includes(path));
+}
+
+function getRetryAfterMs(error: AxiosError): number {
+  const seconds = Number(error.response?.headers?.["retry-after"]);
+  return (Number.isFinite(seconds) && seconds > 0 ? seconds : 5) * 1000;
+}
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
     const originalRequest = error.config as RetryableConfig | undefined;
+
+    if (error.response?.status === 429 && originalRequest) {
+      if (isSelfHandledPath(originalRequest.url)) return Promise.reject(error);
+
+      if (!originalRequest._rateLimitRetried) {
+        originalRequest._rateLimitRetried = true;
+        showToast("Terlalu banyak permintaan, mencoba lagi sebentar lagi...", "info");
+        await sleep(getRetryAfterMs(error));
+        return axiosInstance(originalRequest);
+      }
+
+      showToast("Server sedang sibuk, coba lagi beberapa saat lagi.", "error");
+      return Promise.reject(error);
+    }
 
     if (
       error.response?.status !== 401 ||
       !originalRequest ||
       originalRequest._retry
     ) {
-      // TODO (Fase 14): tangani status 429 per grup endpoint (Bab 13)
       return Promise.reject(error);
     }
 
