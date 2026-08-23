@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useCancelSession } from "../hooks/useCancelSession";
 import { Button } from "@/components/ui/Button";
-import { Dialog } from "@/components/ui/Dialog";
+import { Modal } from "@/components/ui/modal";
 import { useToast } from "@/components/ui/Toast";
 import { extractApiErrorMessage } from "@/lib/utils";
 
@@ -12,18 +12,18 @@ export interface CancelSessionButtonProps {
 
 export function CancelSessionButton({ sessionId }: CancelSessionButtonProps) {
   const { mutate, isPending } = useCancelSession();
-  const { showToast } = useToast();
+  const { toast } = useToast();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleConfirm = () => {
     mutate(sessionId, {
       onSuccess: () => {
         setIsDialogOpen(false);
-        showToast("Sesi dibatalkan.", "info");
+        toast("Sesi dibatalkan.", "info");
       },
       onError: (error) => {
         setIsDialogOpen(false);
-        showToast(
+        toast(
           extractApiErrorMessage(error, "Gagal membatalkan sesi."),
           "error",
         );
@@ -34,23 +34,22 @@ export function CancelSessionButton({ sessionId }: CancelSessionButtonProps) {
   return (
     <>
       <Button
-        size="sm"
-        variant="danger"
         onClick={() => setIsDialogOpen(true)}
         className="flex-1"
       >
         Batalkan Sesi
       </Button>
-      <Dialog
-        isOpen={isDialogOpen}
+      <Modal
+        open={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
-        onConfirm={handleConfirm}
         title="Batalkan Sesi?"
-        description="Sesi ini akan dihapus dari daftar aktif dan stok tidak berubah. Tindakan ini tidak bisa dibatalkan."
-        confirmLabel="Ya, Batalkan"
-        isConfirmDanger
-        isLoading={isPending}
-      />
+      >
+        <p className="mb-4 text-sm text-slate-600">Sesi ini akan dihapus dari daftar aktif dan stok tidak berubah. Tindakan ini tidak bisa dibatalkan.</p>
+        <div className="flex justify-end gap-3">
+          <Button type="button" onClick={() => setIsDialogOpen(false)} disabled={isPending}>Kembali</Button>
+          <Button type="button" onClick={handleConfirm} isLoading={isPending}>Ya, Batalkan</Button>
+        </div>
+      </Modal>
     </>
   );
 }

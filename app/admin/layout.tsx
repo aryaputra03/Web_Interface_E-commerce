@@ -8,9 +8,9 @@ export default function AdminLayout({
 }) {
   return (
     <AdminGuard>
-      <div className="min-h-screen flex">
+      <div className="flex min-h-screen min-w-0">
         <AdminSidebar />
-        <main className="flex-1 p-6 bg-gray-50">{children}</main>
+        <main className="min-w-0 flex-1 bg-gray-50 p-4 sm:p-6">{children}</main>
       </div>
     </AdminGuard>
   );

@@ -1,7 +1,7 @@
 import type { Product } from "../types/product.types";
 import { ProductCard } from "./ProductCard";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { Skeleton } from "@/components/ui/Skeleton";
+import { EmptyState } from "@/components/ui/empty-state";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProductGridProps {
   products?: Product[];

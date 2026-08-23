@@ -5,7 +5,7 @@ import { PosSessionItemList } from "./PosSessionItemList";
 import { PosSessionSubtotal } from "./PosSessionSubtotal";
 import { CheckoutButton } from "./CheckoutButton";
 import { CancelSessionButton } from "./CancelSessionButton";
-import { Badge } from "@/components/ui/Badge";
+import { Badge } from "@/components/ui/badge";
 import { formatRelativeTime } from "@/lib/utils";
 
 export interface PosSessionCardProps {
@@ -70,7 +70,7 @@ export function PosSessionCard({ session }: PosSessionCardProps) {
           </p>
         </div>
         {tracking.highlightedIds.size > 0 && (
-          <Badge color="green" className="animate-pulse">
+          <Badge variant="success" className="animate-pulse">
             Item baru
           </Badge>
         )}

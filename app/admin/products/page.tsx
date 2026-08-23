@@ -38,7 +38,8 @@ export default function AdminProductsPage() {
       )}
 
       {!isLoading && !isError && (
-        <table className="w-full border-collapse text-sm">
+        <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">
+        <table className="min-w-[720px] w-full border-collapse text-sm">
           <thead>
             <tr className="border-b text-left text-gray-500">
               <th className="py-2">Nama</th>
@@ -96,6 +97,7 @@ export default function AdminProductsPage() {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );

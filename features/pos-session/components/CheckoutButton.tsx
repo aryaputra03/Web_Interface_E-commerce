@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useCheckoutSession } from "../hooks/useCheckoutSession";
 import { Button } from "@/components/ui/Button";
-import { Modal } from "@/components/ui/Modal";
+import { Modal } from "@/components/ui/modal";
 import { useToast } from "@/components/ui/Toast";
 import { formatCurrency, extractApiErrorMessage } from "@/lib/utils";
 
@@ -12,7 +12,7 @@ export interface CheckoutButtonProps {
 
 export function CheckoutButton({ sessionId }: CheckoutButtonProps) {
   const { mutate, isPending } = useCheckoutSession();
-  const { showToast } = useToast();
+  const { toast } = useToast();
   const [confirmation, setConfirmation] = useState<{
     orderCode: string;
     total: number;
@@ -28,7 +28,7 @@ export function CheckoutButton({ sessionId }: CheckoutButtonProps) {
             setConfirmation({ orderCode: data.orderCode, total: data.total });
         },
         onError: (error) =>
-          showToast(
+          toast(
             extractApiErrorMessage(error, "Gagal menyelesaikan transaksi."),
             "error",
           ),
@@ -39,7 +39,6 @@ export function CheckoutButton({ sessionId }: CheckoutButtonProps) {
   return (
     <>
       <Button
-        size="sm"
         isLoading={isPending}
         onClick={handleCheckout}
         className="flex-1"
@@ -47,7 +46,7 @@ export function CheckoutButton({ sessionId }: CheckoutButtonProps) {
         Selesaikan Transaksi
       </Button>
       <Modal
-        isOpen={!!confirmation}
+        open={!!confirmation}
         onClose={() => setConfirmation(null)}
         title="Transaksi Berhasil"
       >
