@@ -10,7 +10,7 @@ export default function AdminLayout({
     <AdminGuard>
       <div className="flex min-h-screen min-w-0">
         <AdminSidebar />
-        <main className="min-w-0 flex-1 bg-gray-50 p-4 sm:p-6">{children}</main>
+        <main className="page-enter min-w-0 flex-1 p-4 sm:p-6">{children}</main>
       </div>
     </AdminGuard>
   );

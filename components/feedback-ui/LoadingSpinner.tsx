@@ -25,13 +25,13 @@ export function LoadingSpinner({
     >
       <span
         className={cn(
-          "animate-spin rounded-full border-slate-300 border-t-slate-700",
+          "animate-spin rounded-full border-[var(--mist)] border-t-[var(--twilight)]",
           sizes[size],
         )}
         aria-hidden="true"
       />
 
-      {text && <span className="text-sm text-slate-500">{text}</span>}
+      {text && <span className="text-sm text-[var(--muted-ink)]">{text}</span>}
 
       <span className="sr-only">Loading...</span>
     </div>

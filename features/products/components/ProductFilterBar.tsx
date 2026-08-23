@@ -15,9 +15,9 @@ export function ProductFilterBar({ value, onChange }: ProductFilterBarProps) {
   const [search, setSearch] = useState(value.search ?? "");
 
   return (
-    <div className="flex flex-wrap items-center gap-3">
+    <div className="surface-card flex flex-wrap items-center gap-3 rounded-2xl p-3">
       <input
-        className="rounded-md border border-gray-300 px-3 py-2 text-sm"
+        className="min-w-52 flex-1 rounded-xl border border-[var(--mist)] bg-white/90 px-3.5 py-2.5 text-sm text-[var(--ink)] outline-none transition focus:border-[var(--horizon)] focus:ring-2 focus:ring-[var(--breeze)]"
         placeholder="Cari produk..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
@@ -27,7 +27,7 @@ export function ProductFilterBar({ value, onChange }: ProductFilterBarProps) {
       />
 
       <select
-        className="rounded-md border border-gray-300 px-3 py-2 text-sm"
+        className="rounded-xl border border-[var(--mist)] bg-white/90 px-3.5 py-2.5 text-sm text-[var(--ink)] outline-none transition focus:border-[var(--horizon)] focus:ring-2 focus:ring-[var(--breeze)]"
         value={value.category ?? ""}
         onChange={(e) =>
           onChange({ ...value, category: e.target.value || undefined, page: 1 })
@@ -42,7 +42,7 @@ export function ProductFilterBar({ value, onChange }: ProductFilterBarProps) {
       </select>
 
       <select
-        className="rounded-md border border-gray-300 px-3 py-2 text-sm"
+        className="rounded-xl border border-[var(--mist)] bg-white/90 px-3.5 py-2.5 text-sm text-[var(--ink)] outline-none transition focus:border-[var(--horizon)] focus:ring-2 focus:ring-[var(--breeze)]"
         value={value.sort ?? ""}
         onChange={(e) =>
           onChange({ ...value, sort: e.target.value || undefined, page: 1 })

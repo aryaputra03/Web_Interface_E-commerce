@@ -13,7 +13,7 @@ export function ErrorMessage({
     <div
       role="alert"
       className={cn(
-        "rounded-lg border border-red-200 bg-red-50 px-4 py-3",
+        "animate-float-in rounded-2xl border border-red-200 bg-red-50/90 px-4 py-3 shadow-sm",
         "text-sm text-red-700",
         className,
       )}
