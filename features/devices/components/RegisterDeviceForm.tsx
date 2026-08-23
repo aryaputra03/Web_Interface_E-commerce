@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@/components/feedback-ui/ErrorMessage";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
 import { useRegisterDevice } from "../hooks/useRegisterDevice";
 import { registerDeviceSchema, type RegisterDeviceSchema } from "../schemas/device.schema";

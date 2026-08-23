@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/modal";
 import { useRegenerateKey } from "../hooks/useRegenerateKey";
 import type { Device, RegenerateKeyResponseData } from "../types/device.types";
