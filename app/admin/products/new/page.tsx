@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { ProductForm, useCreateProduct } from "@/features/products";
 import type { ProductFormValues } from "@/features/products";
+import { extractApiErrorMessage } from "@/lib/utils";
 
 export default function NewProductPage() {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function NewProductPage() {
       />
       {createProduct.isError && (
         <p className="text-sm text-red-500">
-          Gagal menyimpan produk. Coba lagi.
+          {extractApiErrorMessage(createProduct.error, "Gagal menyimpan produk. Coba lagi.")}
         </p>
       )}
     </div>

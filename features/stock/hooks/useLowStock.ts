@@ -5,9 +5,6 @@ import { stockService } from "../services/stock.service";
 export function useLowStock() {
   return useQuery({
     queryKey: queryKeys.stock.lowStock,
-    queryFn: async () => {
-      const response = await stockService.getLowStock();
-      return response.data ?? [];
-    },
+    queryFn: () => stockService.getLowStock(),
   });
 }

@@ -1,24 +1,33 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+function subscribe(onStoreChange: () => void) {
+  window.addEventListener("offline", onStoreChange);
+  window.addEventListener("online", onStoreChange);
+
+  return () => {
+    window.removeEventListener("offline", onStoreChange);
+    window.removeEventListener("online", onStoreChange);
+  };
+}
+
+function getIsOffline() {
+  return !navigator.onLine;
+}
+
+function getServerIsOffline() {
+  return false;
+}
 
 export function OfflineBanner() {
-  const [isOffline, setIsOffline] = useState(
-    () => typeof navigator !== "undefined" && !navigator.onLine,
+  // Snapshot server dipertahankan sebagai online saat hydration, kemudian
+  // React menyinkronkan nilai browser tanpa menghasilkan markup yang berbeda.
+  const isOffline = useSyncExternalStore(
+    subscribe,
+    getIsOffline,
+    getServerIsOffline,
   );
-
-  useEffect(() => {
-    const handleOffline = () => setIsOffline(true);
-    const handleOnline = () => setIsOffline(false);
-
-    window.addEventListener("offline", handleOffline);
-    window.addEventListener("online", handleOnline);
-
-    return () => {
-      window.removeEventListener("offline", handleOffline);
-      window.removeEventListener("online", handleOnline);
-    };
-  }, []);
 
   if (!isOffline) return null;
 

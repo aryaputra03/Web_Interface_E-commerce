@@ -4,8 +4,9 @@
 
 import { axiosInstance } from "@/lib/axios";
 import type { ApiResponse } from "@/types/api.types";
-import type { Category } from "../types/category.types";
+import type { CategoryListData } from "../types/category.types";
 
 export const categoryService = {
-  getAll: () => axiosInstance.get<ApiResponse<Category[]>>("/categories"),
+  getAll: () =>
+    axiosInstance.get<ApiResponse<CategoryListData>>("/categories"),
 };

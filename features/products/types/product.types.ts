@@ -4,7 +4,7 @@
 
 export interface Product {
   id: string;
-  sku?: string;
+  sku: string;
   barcode: string;
   name: string;
   slug: string;
@@ -54,9 +54,21 @@ export interface ProductListResponse {
   meta: ProductListMeta;
 }
 
+// Bentuk aktual respons API. Hook mengubahnya menjadi ProductListResponse
+// supaya komponen tidak bergantung pada nama field milik backend.
+export interface ProductListApiData {
+  products?: Product[];
+  pagination?: ProductListMeta;
+}
+
 export type CreateProductPayload = Omit<
   Product,
-  "id" | "createdAt" | "updatedAt" | "averageRating" | "totalReviews"
+  | "id"
+  | "slug"
+  | "createdAt"
+  | "updatedAt"
+  | "averageRating"
+  | "totalReviews"
 >;
 
 export type UpdateProductPayload = Partial<CreateProductPayload>;

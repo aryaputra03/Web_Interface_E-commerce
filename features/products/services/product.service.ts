@@ -11,14 +11,14 @@ import type { ApiResponse } from "@/types/api.types";
 import type {
   Product,
   ProductListFilters,
-  ProductListResponse,
+  ProductListApiData,
   CreateProductPayload,
   UpdateProductPayload,
 } from "../types/product.types";
 
 export const productService = {
   getAll: (filters: ProductListFilters = {}) =>
-    axiosInstance.get<ApiResponse<ProductListResponse>>("/products", {
+    axiosInstance.get<ApiResponse<ProductListApiData>>("/products", {
       params: filters,
     }),
 
@@ -26,7 +26,7 @@ export const productService = {
     axiosInstance.get<ApiResponse<Product>>(`/products/${idOrSlug}`),
 
   create: (payload: CreateProductPayload) =>
-    axiosInstance.post<ApiResponse<Product>>("/products", payload),
+    axiosInstance.post<ApiResponse<{ product: Product }>>("/products", payload),
 
   update: (id: string, payload: UpdateProductPayload) =>
     axiosInstance.patch<ApiResponse<Product>>(`/products/${id}`, payload),

@@ -8,3 +8,7 @@ export interface Category {
   imageUrl?: string;
   createdAt: string;
 }
+
+export interface CategoryListData {
+  categories: Category[];
+}

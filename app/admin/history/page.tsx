@@ -17,7 +17,7 @@ const TABS: { label: string; value: StockReferenceType | undefined }[] = [
 export default function AdminHistoryPage() {
   const [referenceType, setReferenceType] = useState<StockReferenceType | undefined>();
   const { data, isLoading, isError } = useStockHistory({ referenceType });
-  const entries = data?.data ?? [];
+  const entries = data ?? [];
 
   return <div>
     <h1 className="mb-1 text-2xl font-semibold">Riwayat Stok</h1>

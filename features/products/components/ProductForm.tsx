@@ -48,6 +48,20 @@ export function ProductForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
+        <label className="text-sm font-medium text-gray-700">
+          SKU <span className="text-red-500">*</span>
+        </label>
+        <input
+          className="rounded-md border border-gray-300 px-3 py-2 text-sm font-mono"
+          placeholder="Contoh: MIN-001"
+          {...register("sku")}
+        />
+        {errors.sku && (
+          <span className="text-xs text-red-500">{errors.sku.message}</span>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-1">
         <label className="text-sm font-medium text-gray-700">Nama Produk</label>
         <input
           className="rounded-md border border-gray-300 px-3 py-2 text-sm"

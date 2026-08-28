@@ -17,6 +17,7 @@ export default function AdminProductsPage() {
   });
   const { data, isLoading, isError } = useProducts(filters);
   const deleteProduct = useDeleteProduct();
+  const products = data?.items ?? [];
 
   return (
     <div className="flex flex-col gap-4">
@@ -51,14 +52,14 @@ export default function AdminProductsPage() {
             </tr>
           </thead>
           <tbody>
-            {data?.items.length === 0 && (
+            {products.length === 0 && (
               <tr>
                 <td colSpan={6} className="py-6 text-center text-gray-400">
                   Belum ada produk.
                 </td>
               </tr>
             )}
-            {data?.items.map((p) => (
+            {products.map((p) => (
               <tr key={p.id} className="border-b">
                 <td className="py-2">{p.name}</td>
                 <td className="py-2 font-mono text-xs">{p.barcode}</td>

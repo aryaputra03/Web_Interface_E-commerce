@@ -9,7 +9,7 @@ export function useCategories() {
     queryKey: queryKeys.categories.all,
     queryFn: async () => {
       const res = await categoryService.getAll();
-      return res.data.data ?? [];
+      return res.data.data?.categories ?? [];
     },
     // Kategori jarang berubah — cache lebih lama daripada default supaya
     // tidak fetch ulang tiap kali CategorySelect dipasang di form berbeda.
