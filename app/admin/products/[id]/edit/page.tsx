@@ -1,5 +1,6 @@
 "use client";
 
+import { use } from "react";
 import { useRouter } from "next/navigation";
 import {
   useProductDetail,
@@ -11,11 +12,13 @@ import type { ProductFormValues } from "@/features/products";
 export default function EditProductPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const router = useRouter();
-  const { data: product, isLoading } = useProductDetail(params.id);
-  const updateProduct = useUpdateProduct(params.id);
+  const { id } = use(params);
+
+  const { data: product, isLoading } = useProductDetail(id);
+  const updateProduct = useUpdateProduct(id);
 
   if (isLoading) {
     return <p className="text-sm text-gray-500">Memuat data produk...</p>;

@@ -40,64 +40,65 @@ export default function AdminProductsPage() {
 
       {!isLoading && !isError && (
         <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">
-        <table className="min-w-[720px] w-full border-collapse text-sm">
-          <thead>
-            <tr className="border-b text-left text-gray-500">
-              <th className="py-2">Nama</th>
-              <th className="py-2">Barcode</th>
-              <th className="py-2">Harga</th>
-              <th className="py-2">Stok</th>
-              <th className="py-2">Status</th>
-              <th className="py-2 text-right">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.length === 0 && (
-              <tr>
-                <td colSpan={6} className="py-6 text-center text-gray-400">
-                  Belum ada produk.
-                </td>
+          <table className="min-w-[720px] w-full border-collapse text-sm">
+            <thead>
+              <tr className="border-b text-left text-gray-500">
+                <th className="py-2">Nama</th>
+                <th className="py-2">Barcode</th>
+                <th className="py-2">Harga</th>
+                <th className="py-2">Stok</th>
+                <th className="py-2">Status</th>
+                <th className="py-2 text-right">Aksi</th>
               </tr>
-            )}
-            {products.map((p) => (
-              <tr key={p.id} className="border-b">
-                <td className="py-2">{p.name}</td>
-                <td className="py-2 font-mono text-xs">{p.barcode}</td>
-                <td className="py-2">{formatCurrency(p.price)}</td>
-                <td className="py-2">{p.stock}</td>
-                <td className="py-2">
-                  <span
-                    className={`rounded-full px-2 py-0.5 text-xs ${
-                      p.isActive
-                        ? "bg-green-100 text-green-700"
-                        : "bg-gray-100 text-gray-500"
-                    }`}
-                  >
-                    {p.isActive ? "Aktif" : "Nonaktif"}
-                  </span>
-                </td>
-                <td className="py-2 text-right">
-                  <Link
-                    href={`/admin/products/${p.id}/edit`}
-                    className="mr-3 text-blue-600 hover:underline"
-                  >
-                    Edit
-                  </Link>
-                  <button
-                    onClick={() => {
-                      if (confirm(`Hapus produk "${p.name}"?`)) {
-                        deleteProduct.mutate(p.id);
-                      }
-                    }}
-                    className="text-red-500 hover:underline"
-                  >
-                    Hapus
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {products.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="py-6 text-center text-gray-400">
+                    Belum ada produk.
+                  </td>
+                </tr>
+              )}
+              {products.map((p) => (
+                <tr key={p._id} className="border-b">
+                  <td className="py-2">{p.name}</td>
+                  <td className="py-2 font-mono text-xs">{p.barcode}</td>
+                  <td className="py-2">{formatCurrency(p.price)}</td>
+                  <td className="py-2">{p.stock}</td>
+                  <td className="py-2">
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-xs ${
+                        p.isActive
+                          ? "bg-green-100 text-green-700"
+                          : "bg-gray-100 text-gray-500"
+                      }`}
+                    >
+                      {p.isActive ? "Aktif" : "Nonaktif"}
+                    </span>
+                  </td>
+                  <td className="py-2 text-right">
+                    <Link
+                      href={`/admin/products/${p._id}/edit`}
+                      className="mr-3 text-blue-600 hover:underline"
+                    >
+                      Edit
+                    </Link>
+                    <button
+                      onClick={() => {
+                        console.log("produk yang mau dihapus:", p);
+                        if (confirm(`Hapus produk "${p.name}"?`)) {
+                          deleteProduct.mutate(p._id);
+                        }
+                      }}
+                      className="text-red-500 hover:underline"
+                    >
+                      Hapus
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>

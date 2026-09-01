@@ -3,7 +3,7 @@
 // (lihat dokumen kebutuhan Front-End Bab 8).
 
 export interface Product {
-  id: string;
+  _id: string;
   sku: string;
   barcode: string;
   name: string;
@@ -63,12 +63,7 @@ export interface ProductListApiData {
 
 export type CreateProductPayload = Omit<
   Product,
-  | "id"
-  | "slug"
-  | "createdAt"
-  | "updatedAt"
-  | "averageRating"
-  | "totalReviews"
+  "id" | "slug" | "createdAt" | "updatedAt" | "averageRating" | "totalReviews"
 >;
 
 export type UpdateProductPayload = Partial<CreateProductPayload>;

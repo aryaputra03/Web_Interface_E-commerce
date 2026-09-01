@@ -61,7 +61,9 @@ const SELF_HANDLED_RATE_LIMIT_PATHS = [
 ];
 
 function isSelfHandledPath(url: string | undefined): boolean {
-  return !!url && SELF_HANDLED_RATE_LIMIT_PATHS.some((path) => url.includes(path));
+  return (
+    !!url && SELF_HANDLED_RATE_LIMIT_PATHS.some((path) => url.includes(path))
+  );
 }
 
 function getRetryAfterMs(error: AxiosError): number {
@@ -73,8 +75,30 @@ function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function normalizeIds<T>(payload: T): T {
+  if (Array.isArray(payload)) {
+    return payload.map((item) => normalizeIds(item)) as unknown as T;
+  }
+  if (payload !== null && typeof payload === "object") {
+    const result: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(
+      payload as Record<string, unknown>,
+    )) {
+      result[key] = normalizeIds(value);
+    }
+    if (result._id !== undefined && result.id === undefined) {
+      result.id = result._id;
+    }
+    return result as T;
+  }
+  return payload;
+}
+
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    response.data = normalizeIds(response.data);
+    return response;
+  },
   async (error: AxiosError) => {
     const originalRequest = error.config as RetryableConfig | undefined;
 
@@ -83,7 +107,10 @@ axiosInstance.interceptors.response.use(
 
       if (!originalRequest._rateLimitRetried) {
         originalRequest._rateLimitRetried = true;
-        showToast("Terlalu banyak permintaan, mencoba lagi sebentar lagi...", "info");
+        showToast(
+          "Terlalu banyak permintaan, mencoba lagi sebentar lagi...",
+          "info",
+        );
         await sleep(getRetryAfterMs(error));
         return axiosInstance(originalRequest);
       }

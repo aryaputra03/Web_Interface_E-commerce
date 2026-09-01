@@ -7,7 +7,7 @@ export function useDeviceScans() {
     queryKey: queryKeys.deviceScans.all,
     queryFn: async () => {
       const response = await deviceScanService.getAll();
-      return response.data ?? [];
+      return response.data?.scans ?? [];
     },
   });
 }

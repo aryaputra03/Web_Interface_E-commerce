@@ -8,7 +8,7 @@ export function useDevices() {
     queryKey: queryKeys.devices.all,
     queryFn: async () => {
       const response = await deviceService.getAll();
-      return response.data ?? [];
+      return response.data?.devices ?? [];
     },
     refetchInterval: POLLING_INTERVAL.DEVICES,
   });

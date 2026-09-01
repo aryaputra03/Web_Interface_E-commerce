@@ -1,14 +1,17 @@
 "use client";
 
+import { use } from "react";
 import { useProductDetail } from "@/features/products";
 import { formatCurrency } from "@/lib/utils";
 
 export default function ProductDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const { data: product, isLoading, isError } = useProductDetail(params.slug);
+  const { slug } = use(params);
+
+  const { data: product, isLoading, isError } = useProductDetail(slug);
 
   if (isLoading) {
     return <p className="p-6 text-sm text-gray-500">Memuat produk...</p>;
