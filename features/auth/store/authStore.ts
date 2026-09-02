@@ -19,6 +19,7 @@ interface AuthState {
   updateAccessToken: (accessToken: string) => void;
   clearSession: () => void;
   setHydrating: (value: boolean) => void;
+  updateUser: (patch: Partial<User>) => void;
 }
 
 function setSessionHintCookie() {
@@ -76,6 +77,10 @@ export const useAuthStore = create<AuthState>((set) => ({
       isHydrating: false,
     });
   },
+  updateUser: (patch) =>
+    set((state) => ({
+      user: state.user ? { ...state.user, ...patch } : state.user,
+    })),
 
   setHydrating: (value) => set({ isHydrating: value }),
 }));

@@ -9,7 +9,7 @@ export function useProductDetail(idOrSlug: string) {
     queryKey: queryKeys.products.detail(idOrSlug),
     queryFn: async () => {
       const res = await productService.getByIdOrSlug(idOrSlug);
-      return res.data.data;
+      return res.data.data?.product ?? null;
     },
     enabled: !!idOrSlug,
   });

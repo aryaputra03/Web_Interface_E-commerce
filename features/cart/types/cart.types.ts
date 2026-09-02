@@ -13,3 +13,19 @@ export interface Cart {
   totalItems: number;
   totalPrice: number;
 }
+
+export interface CartApiItem {
+  productId: string;
+  name: string;
+  image: string | null;
+  priceSnapshot: number;
+  quantity: number;
+  subtotal: number;
+  currentStock: number;
+  isProductActive: boolean;
+}
+
+export interface CartApiData {
+  items: CartApiItem[];
+  subtotal: number;
+}
