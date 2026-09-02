@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@/components/feedback-ui/ErrorMessage";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
+import { useLogout } from "@/features/auth/hooks/useLogout";
 import { useUpdateProfile } from "../hooks/useUpdateProfile";
 import { profileSchema, type ProfileSchema } from "../schemas/user.schema";
 import type { UserProfile } from "../types/user.types";
@@ -15,6 +16,7 @@ interface ProfileFormProps {
 
 export function ProfileForm({ profile }: ProfileFormProps) {
   const updateMutation = useUpdateProfile();
+  const logoutMutation = useLogout();
   const {
     register,
     handleSubmit,
@@ -52,6 +54,16 @@ export function ProfileForm({ profile }: ProfileFormProps) {
         className="w-full"
       >
         Simpan Perubahan
+      </Button>
+
+      <Button
+        type="button"
+        variant="ghost"
+        onClick={() => logoutMutation.mutate()}
+        isLoading={logoutMutation.isPending}
+        className="w-full"
+      >
+        Keluar
       </Button>
     </form>
   );
