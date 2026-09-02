@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
+
 import { POLLING_INTERVAL } from "@/lib/constants";
 import { queryKeys } from "@/lib/query-keys";
+
 import { notificationService } from "../services/notification.service";
 
 export function useNotifications() {
@@ -8,7 +10,8 @@ export function useNotifications() {
     queryKey: queryKeys.notifications.all,
     queryFn: async () => {
       const response = await notificationService.getAll();
-      return response.data ?? [];
+
+      return response.data?.notifications ?? [];
     },
     refetchInterval: POLLING_INTERVAL.NOTIFICATIONS,
   });

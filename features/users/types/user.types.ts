@@ -14,11 +14,9 @@ export interface UpdateProfilePayload {
 export interface Address {
   id: string;
   label: string;
-  recipientName: string;
-  phone: string;
-  addressLine: string;
-  city: string;
-  postalCode: string;
+  fullAddress: string;
+  latitude?: number;
+  longitude?: number;
   isDefault: boolean;
 }
 
@@ -32,4 +30,4 @@ export interface CreateAddressPayload {
   isDefault?: boolean;
 }
 
-export type UpdateAddressPayload = Partial<CreateAddressPayload>;
+export type CreateAddressPayload = Omit<Address, "id">;

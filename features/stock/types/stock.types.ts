@@ -2,11 +2,11 @@ export type StockReferenceType = "order" | "manual" | "device_scan";
 
 export interface StockHistoryEntry {
   id: string;
-  productId: string;
-  productName: string;
-  quantityChange: number;
+  productId:
+    | { id: string; name: string; sku: string; barcode: string }
+    | string;
+  quantity: number;
   referenceType: StockReferenceType;
-  referenceId?: string;
   note?: string;
   createdAt: string;
 }

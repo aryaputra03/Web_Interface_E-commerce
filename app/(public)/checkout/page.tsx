@@ -18,11 +18,11 @@ export default function CheckoutPage() {
   const items = cart?.items ?? [];
   const handleCreateOrder = () =>
     createOrderMutation.mutate(
-      { voucherCode: null },
+      { fulfillmentType: "pickup", voucherCode: null },
       {
         onSuccess: (response) => {
           if (response.data) {
-            setOrder(response.data);
+            setOrder(response.data.order);
             setStep("awaiting-payment");
           }
         },
