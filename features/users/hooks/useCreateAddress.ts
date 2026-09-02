@@ -1,3 +1,4 @@
+// useCreateAddress.ts
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "@/lib/query-keys";
 import { userService } from "../services/user.service";
@@ -7,9 +8,10 @@ export function useCreateAddress() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (payload: CreateAddressPayload) => userService.createAddress(payload),
+    mutationFn: (payload: CreateAddressPayload) =>
+      userService.createAddress(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.users.addresses });
+      queryClient.invalidateQueries({ queryKey: queryKeys.users.me });
     },
   });
 }

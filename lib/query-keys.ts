@@ -29,6 +29,5 @@ export const queryKeys = {
   },
   users: {
     me: ["users", "me"] as const,
-    addresses: ["users", "me", "addresses"] as const,
   },
 };

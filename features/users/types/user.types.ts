@@ -1,16 +1,3 @@
-export interface UserProfile {
-  id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  avatarUrl?: string;
-}
-
-export interface UpdateProfilePayload {
-  name: string;
-  phone?: string;
-}
-
 export interface Address {
   id: string;
   label: string;
@@ -20,14 +7,26 @@ export interface Address {
   isDefault: boolean;
 }
 
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  avatarUrl?: string;
+  addresses: Address[];
+}
+
+export interface UpdateProfilePayload {
+  name: string;
+  phone?: string;
+}
+
 export interface CreateAddressPayload {
   label: string;
-  recipientName: string;
-  phone: string;
-  addressLine: string;
-  city: string;
-  postalCode: string;
+  fullAddress: string;
+  latitude?: number;
+  longitude?: number;
   isDefault?: boolean;
 }
 
-export type CreateAddressPayload = Omit<Address, "id">;
+export type UpdateAddressPayload = Partial<CreateAddressPayload>;

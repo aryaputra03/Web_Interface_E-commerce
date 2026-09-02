@@ -13,8 +13,11 @@ export function useUpdateProfile() {
       userService.updateMe(payload),
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.users.me });
-      if (res.data)
-        updateUser({ name: res.data.name, avatarUrl: res.data.avatarUrl });
+      if (res.data?.user)
+        updateUser({
+          name: res.data.user.name,
+          avatarUrl: res.data.user.avatarUrl,
+        });
     },
   });
 }

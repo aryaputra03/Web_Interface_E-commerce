@@ -21,7 +21,10 @@ export function AddressList({ addresses, isLoading }: AddressListProps) {
     return (
       <div className="space-y-2">
         {[...Array(2)].map((_, index) => (
-          <div key={index} className="h-24 animate-pulse rounded-lg bg-slate-100" />
+          <div
+            key={index}
+            className="h-24 animate-pulse rounded-lg bg-slate-100"
+          />
         ))}
       </div>
     );
@@ -38,13 +41,18 @@ export function AddressList({ addresses, isLoading }: AddressListProps) {
   return (
     <div className="space-y-3">
       {addresses.map((address) => (
-        <div key={address.id} className="rounded-lg border border-slate-200 p-4">
+        <div
+          key={address.id}
+          className="rounded-lg border border-slate-200 p-4"
+        >
           {editingId === address.id ? (
             <AddressForm
               defaultValues={address}
               isSubmitting={updateMutation.isPending}
               submitError={
-                updateMutation.isError ? "Tidak dapat menyimpan perubahan." : null
+                updateMutation.isError
+                  ? "Tidak dapat menyimpan perubahan."
+                  : null
               }
               onCancel={() => setEditingId(null)}
               onSubmit={(values) =>
@@ -76,7 +84,7 @@ export function AddressList({ addresses, isLoading }: AddressListProps) {
                   <button
                     type="button"
                     onClick={() => {
-                      if (confirm(`Hapus alamat \"${address.label}\"?`)) {
+                      if (confirm(`Hapus alamat "${address.label}"?`)) {
                         deleteMutation.mutate(address.id);
                       }
                     }}
@@ -87,11 +95,8 @@ export function AddressList({ addresses, isLoading }: AddressListProps) {
                   </button>
                 </div>
               </div>
-              <p className="mt-1 text-sm text-slate-600">
-                {address.recipientName} · {address.phone}
-              </p>
-              <p className="text-sm text-slate-500">
-                {address.addressLine}, {address.city} {address.postalCode}
+              <p className="mt-1 text-sm text-slate-500">
+                {address.fullAddress}
               </p>
             </>
           )}

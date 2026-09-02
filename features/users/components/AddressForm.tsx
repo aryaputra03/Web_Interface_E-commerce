@@ -39,16 +39,6 @@ export function AddressForm({
         error={errors.label?.message}
         {...register("label")}
       />
-      <Input
-        label="Nama Penerima"
-        error={errors.recipientName?.message}
-        {...register("recipientName")}
-      />
-      <Input
-        label="Nomor Telepon"
-        error={errors.phone?.message}
-        {...register("phone")}
-      />
 
       <div>
         <label className="mb-1 block text-sm font-medium text-slate-700">
@@ -57,22 +47,13 @@ export function AddressForm({
         <textarea
           className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-slate-100"
           rows={3}
-          {...register("addressLine")}
+          {...register("fullAddress")}
         />
-        {errors.addressLine?.message && (
+        {errors.fullAddress?.message && (
           <p className="mt-1 text-xs text-red-600">
-            {errors.addressLine.message}
+            {errors.fullAddress.message}
           </p>
         )}
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <Input label="Kota" error={errors.city?.message} {...register("city")} />
-        <Input
-          label="Kode Pos"
-          error={errors.postalCode?.message}
-          {...register("postalCode")}
-        />
       </div>
 
       <label className="flex items-center gap-2 text-sm text-slate-600">

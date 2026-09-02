@@ -9,11 +9,9 @@ export type ProfileSchema = z.infer<typeof profileSchema>;
 
 export const addressSchema = z.object({
   label: z.string().min(1, "Label alamat wajib diisi (contoh: Rumah, Kantor)"),
-  recipientName: z.string().min(1, "Nama penerima wajib diisi"),
-  phone: z.string().min(1, "Nomor telepon wajib diisi"),
-  addressLine: z.string().min(1, "Alamat lengkap wajib diisi"),
-  city: z.string().min(1, "Kota wajib diisi"),
-  postalCode: z.string().min(1, "Kode pos wajib diisi"),
+  fullAddress: z.string().min(1, "Alamat lengkap wajib diisi"),
+  latitude: z.coerce.number().optional(),
+  longitude: z.coerce.number().optional(),
   isDefault: z.boolean().optional(),
 });
 

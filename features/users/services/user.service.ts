@@ -10,7 +10,8 @@ import type {
 
 export const userService = {
   async getMe() {
-    const { data } = await axiosInstance.get<ApiResponse<UserProfile>>("/users/me");
+    const { data } =
+      await axiosInstance.get<ApiResponse<UserProfile>>("/users/me");
     return data;
   },
 
@@ -22,33 +23,24 @@ export const userService = {
     return data;
   },
 
-  async getAddresses() {
-    const { data } = await axiosInstance.get<ApiResponse<Address[]>>(
-      "/users/me/addresses",
-    );
-    return data;
-  },
-
   async createAddress(payload: CreateAddressPayload) {
-    const { data } = await axiosInstance.post<ApiResponse<Address>>(
-      "/users/me/addresses",
-      payload,
-    );
+    const { data } = await axiosInstance.post<
+      ApiResponse<{ addresses: Address[] }>
+    >("/users/me/addresses", payload);
     return data;
   },
 
   async updateAddress(id: string, payload: UpdateAddressPayload) {
-    const { data } = await axiosInstance.patch<ApiResponse<Address>>(
-      `/users/me/addresses/${id}`,
-      payload,
-    );
+    const { data } = await axiosInstance.patch<
+      ApiResponse<{ addresses: Address[] }>
+    >(`/users/me/addresses/${id}`, payload);
     return data;
   },
 
   async deleteAddress(id: string) {
-    const { data } = await axiosInstance.delete<ApiResponse<null>>(
-      `/users/me/addresses/${id}`,
-    );
+    const { data } = await axiosInstance.delete<
+      ApiResponse<{ addresses: Address[] }>
+    >(`/users/me/addresses/${id}`);
     return data;
   },
 };
