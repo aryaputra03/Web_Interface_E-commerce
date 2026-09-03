@@ -5,7 +5,7 @@ export function formatCurrency(amount: number): string {
     maximumFractionDigits: 0,
   }).format(amount);
 }
-
+// test
 export function formatDate(input: string | Date): string {
   const date = typeof input === "string" ? new Date(input) : input;
   return new Intl.DateTimeFormat("id-ID", {
