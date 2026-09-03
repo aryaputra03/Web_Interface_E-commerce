@@ -1,3 +1,12 @@
+export type OrderStatus =
+  | "pending"
+  | "paid"
+  | "processing"
+  | "ready"
+  | "delivering"
+  | "completed"
+  | "cancelled";
+
 export interface CreateOrderPayload {
   fulfillmentType: "delivery" | "pickup";
   deliveryAddress?: string;
@@ -17,4 +26,9 @@ export interface Order {
   items: OrderItem[];
   total: number;
   createdAt: string;
+}
+
+export interface CreateOrderResponseData {
+  order: Order;
+  payment: { id: string; status: "pending" | "success" | "failed" };
 }

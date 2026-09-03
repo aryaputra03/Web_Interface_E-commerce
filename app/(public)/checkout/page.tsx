@@ -15,6 +15,7 @@ export default function CheckoutPage() {
   const createOrderMutation = useCreateOrder();
   const [step, setStep] = useState<CheckoutStep>("review");
   const [order, setOrder] = useState<Order | null>(null);
+  const [paymentId, setPaymentId] = useState<string | null>(null);
   const items = cart?.items ?? [];
   const handleCreateOrder = () =>
     createOrderMutation.mutate(
@@ -23,6 +24,7 @@ export default function CheckoutPage() {
         onSuccess: (response) => {
           if (response.data) {
             setOrder(response.data.order);
+            setPaymentId(response.data.payment.id);
             setStep("awaiting-payment");
           }
         },
@@ -44,7 +46,7 @@ export default function CheckoutPage() {
         </Link>
       </div>
     );
-  if (step === "awaiting-payment" && order)
+  if (step === "awaiting-payment" && order && paymentId)
     return (
       <div className="mx-auto max-w-lg px-4 py-8">
         <h1 className="mb-1 text-2xl font-semibold">Selesaikan Pembayaran</h1>
@@ -55,7 +57,7 @@ export default function CheckoutPage() {
         <OrderDetail order={order} />
         <div className="mt-6">
           <PaymentSimulateButton
-            orderId={order.id}
+            paymentId={paymentId}
             onSuccess={() => setStep("success")}
           />
         </div>

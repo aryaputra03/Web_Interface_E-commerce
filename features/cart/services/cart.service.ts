@@ -1,6 +1,6 @@
 import { axiosInstance } from "@/lib/axios";
 import type { ApiResponse } from "@/types/api.types";
-// import type { Cart } from "../types/cart.types";
+import type { CartApiData } from "../types/cart.types";
 
 export const cartService = {
   async getCart() {

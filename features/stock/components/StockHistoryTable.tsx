@@ -72,7 +72,11 @@ export function StockHistoryTable({
         <tbody className="divide-y divide-slate-100 bg-white">
           {entries.map((entry) => (
             <tr key={entry.id}>
-              <td className="px-4 py-2">{entry.productId?.name ?? "-"}</td>
+              <td className="px-4 py-2">
+                {typeof entry.productId === "string"
+                  ? entry.productId
+                  : (entry.productId?.name ?? "-")}
+              </td>
               <td
                 className={cn(
                   "px-4 py-2 font-medium",
