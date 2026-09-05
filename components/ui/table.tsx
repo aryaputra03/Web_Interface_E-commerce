@@ -64,19 +64,19 @@ export function Table<TData extends RowData>({
   return (
     <div
       className={cn(
-        "w-full overflow-hidden rounded-lg border border-slate-200 bg-white",
+        "w-full overflow-hidden rounded-lg border border-line-strong bg-paper-raised",
         className,
       )}
     >
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-sm">
-          <thead className="bg-slate-50">
+          <thead className="bg-paper">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="border-b border-slate-200 px-4 py-3 text-left font-semibold text-slate-700"
+                    className="border-b border-line-strong px-4 py-3 text-left font-semibold text-ink"
                   >
                     {header.isPlaceholder
                       ? null
@@ -94,10 +94,10 @@ export function Table<TData extends RowData>({
             {table.getRowModel().rows.map((row) => (
               <tr
                 key={row.id}
-                className="border-b border-slate-100 last:border-b-0 hover:bg-slate-50"
+                className="border-b border-line last:border-b-0 hover:bg-paper"
               >
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="px-4 py-3 text-slate-700">
+                  <td key={cell.id} className="px-4 py-3 text-ink">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

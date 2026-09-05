@@ -18,12 +18,17 @@ export function Button({
 }: ButtonProps) {
   const isDisabled = disabled || isLoading;
   const variants = {
-    primary: "bg-[var(--depths)] text-white shadow-[0_8px_18px_rgba(64,83,128,0.22)] hover:bg-[var(--twilight)]",
-    secondary: "bg-[var(--breeze)] text-[var(--depths)] hover:bg-[var(--drift)]",
-    ghost: "bg-transparent text-[var(--depths)] hover:bg-[var(--breeze)]",
-    danger: "bg-rose-600 text-white shadow-[0_8px_18px_rgba(225,29,72,0.18)] hover:bg-rose-700",
+    primary: "bg-till text-paper hover:bg-till-dark",
+    secondary:
+      "bg-transparent text-ink border border-line-strong hover:border-ink hover:bg-till-tint",
+    ghost: "bg-transparent text-ink-muted hover:text-ink hover:bg-till-tint",
+    danger: "bg-brick text-paper hover:bg-brick/90",
   };
-  const sizes = { sm: "h-9 px-3 text-xs", md: "h-10 px-4 text-sm", lg: "h-12 px-5 text-base" };
+  const sizes = {
+    sm: "h-9 px-3 text-xs",
+    md: "h-10 px-4 text-sm",
+    lg: "h-12 px-5 text-base",
+  };
 
   return (
     <button
@@ -31,23 +36,13 @@ export function Button({
       disabled={isDisabled}
       aria-busy={isLoading}
       className={cn(
-        // Base
         "inline-flex items-center justify-center gap-2",
-        "rounded-xl font-semibold",
-        "transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0",
+        "rounded-md font-medium",
+        "transition-colors duration-150 ease-out",
         sizes[size],
         variants[variant],
-
-        // Focus
-        "focus:outline-none focus:ring-2",
-        "focus:ring-[var(--horizon)] focus:ring-offset-2",
-
-        // Disabled
-        "disabled:cursor-not-allowed",
-        "disabled:bg-[var(--mist)]",
-        "disabled:text-[var(--muted-ink)]",
-        "disabled:opacity-100",
-
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-till focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+        "disabled:cursor-not-allowed disabled:opacity-45",
         className,
       )}
     >

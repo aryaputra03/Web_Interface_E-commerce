@@ -37,7 +37,6 @@ export function Modal({
 }: ModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
 
-  // Close dengan tombol Escape
   useEffect(() => {
     if (!open) return;
 
@@ -54,7 +53,6 @@ export function Modal({
     };
   }, [open, onClose]);
 
-  // Lock body scroll ketika modal terbuka
   useEffect(() => {
     if (!open) return;
 
@@ -82,13 +80,11 @@ export function Modal({
       role="presentation"
       onMouseDown={handleOverlayClick}
     >
-      {/* Overlay */}
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         aria-hidden="true"
       />
 
-      {/* Dialog */}
       <div
         ref={dialogRef}
         role="dialog"
@@ -96,22 +92,18 @@ export function Modal({
         aria-labelledby={title ? "modal-title" : undefined}
         aria-describedby={description ? "modal-description" : undefined}
         className={cn(
-          "relative z-10 w-full rounded-xl bg-white shadow-2xl",
-          "max-h-[90vh] overflow-hidden",
+          "relative z-10 w-full rounded-lg bg-paper-raised",
+          "max-h-[90vh] overflow-hidden border border-line-strong",
           sizes[size],
           className,
         )}
         onMouseDown={(event) => event.stopPropagation()}
       >
-        {/* Header */}
         {(title || showCloseButton) && (
-          <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-4">
+          <div className="flex items-start justify-between gap-4 border-b border-line px-6 py-4">
             <div>
               {title && (
-                <h2
-                  id="modal-title"
-                  className="text-lg font-semibold text-slate-900"
-                >
+                <h2 id="modal-title" className="text-lg font-semibold text-ink">
                   {title}
                 </h2>
               )}
@@ -119,7 +111,7 @@ export function Modal({
               {description && (
                 <p
                   id="modal-description"
-                  className="mt-1 text-sm text-slate-500"
+                  className="mt-1 text-sm text-ink-muted"
                 >
                   {description}
                 </p>
@@ -132,10 +124,10 @@ export function Modal({
                 onClick={onClose}
                 className={cn(
                   "flex h-8 w-8 shrink-0 items-center justify-center",
-                  "rounded-lg text-slate-400",
+                  "rounded-sm text-ink-muted",
                   "transition-colors",
-                  "hover:bg-slate-100 hover:text-slate-700",
-                  "focus:outline-none focus:ring-2 focus:ring-slate-400",
+                  "hover:bg-till-tint hover:text-ink",
+                  "focus:outline-none focus:ring-2 focus:ring-till",
                 )}
                 aria-label="Close modal"
               >
@@ -145,12 +137,10 @@ export function Modal({
           </div>
         )}
 
-        {/* Content */}
         <div className="max-h-[60vh] overflow-y-auto px-6 py-5">{children}</div>
 
-        {/* Footer */}
         {footer && (
-          <div className="flex items-center justify-end gap-3 border-t border-slate-200 bg-slate-50 px-6 py-4">
+          <div className="flex items-center justify-end gap-3 border-t border-line bg-paper px-6 py-4">
             {footer}
           </div>
         )}

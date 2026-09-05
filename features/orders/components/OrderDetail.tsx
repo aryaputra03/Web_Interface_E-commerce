@@ -1,4 +1,42 @@
 import { formatCurrency, formatDate } from "@/lib/utils";
 import type { Order } from "../types/order.types";
 import { OrderStatusBadge } from "./OrderStatusBadge";
-export function OrderDetail({ order }: { order: Order }) { return <div className="rounded-lg border border-slate-200 p-4"><div className="mb-3 flex items-center justify-between"><div><p className="text-sm font-medium">{order.orderCode}</p><p className="text-xs text-slate-400">{formatDate(order.createdAt)}</p></div><OrderStatusBadge status={order.status} /></div><div className="divide-y divide-slate-100">{order.items.map((item) => <div key={item.productId} className="flex justify-between py-2 text-sm"><span>{item.productName} × {item.quantity}</span><span>{formatCurrency(item.priceSnapshot * item.quantity)}</span></div>)}</div><div className="mt-3 flex justify-between border-t border-slate-100 pt-3 text-sm font-semibold"><span>Total</span><span>{formatCurrency(order.total)}</span></div></div>; }
+
+export function OrderDetail({ order }: { order: Order }) {
+  return (
+    <div className="rounded-lg border border-line-strong bg-paper-raised p-5 font-mono text-sm">
+      <div className="mb-3 flex items-center justify-between">
+        <div>
+          <p className="font-medium text-ink">{order.orderCode}</p>
+          <p className="text-xs text-ink-muted">
+            {formatDate(order.createdAt)}
+          </p>
+        </div>
+        <OrderStatusBadge status={order.status} />
+      </div>
+
+      <div className="till-tape mb-2" />
+
+      <div className="space-y-1.5">
+        {order.items.map((item) => (
+          <div
+            key={item.productId}
+            className="flex justify-between text-ink-muted"
+          >
+            <span>
+              {item.name} × {item.quantity}
+            </span>
+            <span>{formatCurrency(item.subtotal)}</span>
+          </div>
+        ))}
+      </div>
+
+      <div className="till-tape my-3" />
+
+      <div className="flex justify-between text-base font-semibold text-ink">
+        <span>Total</span>
+        <span>{formatCurrency(order.total)}</span>
+      </div>
+    </div>
+  );
+}

@@ -10,17 +10,54 @@ export function Navbar() {
   const user = useAuthStore((state) => state.user);
   const totalItems = useCartStore((state) => state.totalItems);
   useCart();
+
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--line)] bg-white/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-[4.25rem] max-w-6xl items-center justify-between gap-4 px-4">
-        <Link href="/" className="group flex items-center gap-2.5 text-[var(--depths)]">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--depths)] text-sm font-black text-white shadow-md transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-105">K</span>
-          <span className="text-lg font-bold tracking-tight">Kasir Pintar</span>
+    <header className="sticky top-0 z-40 border-b border-line-strong bg-paper/95 backdrop-blur">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
+        <Link href="/" className="flex items-center gap-2.5 text-ink">
+          <span className="flex h-8 w-8 items-center justify-center rounded-sm bg-till font-mono text-sm font-semibold text-paper">
+            K
+          </span>
+          <span className="text-base font-semibold tracking-tight">
+            Kasir Pintar
+          </span>
         </Link>
-        <nav className="flex items-center gap-3 text-sm font-medium sm:gap-5">
-          <Link href="/feedback" className="text-[var(--muted-ink)] transition-colors hover:text-[var(--twilight)]">Feedback</Link>
-          <Link href="/cart" className="relative text-[var(--muted-ink)] transition-colors hover:text-[var(--twilight)]">Keranjang{totalItems > 0 && <span className="absolute -right-3 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--twilight)] px-1 text-[10px] font-bold text-white shadow-sm">{totalItems}</span>}</Link>
-          {isAuthenticated ? <Link href="/profile" className="max-w-24 truncate rounded-lg bg-[var(--breeze)] px-2.5 py-1.5 text-[var(--depths)] transition-colors hover:bg-[var(--drift)] sm:max-w-none">{user?.name ?? "Profil"}</Link> : <Link href="/login" className="rounded-lg bg-[var(--depths)] px-3 py-1.5 text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[var(--twilight)]">Masuk</Link>}
+
+        <nav className="flex items-center gap-5 text-sm sm:gap-6">
+          <Link
+            href="/feedback"
+            className="text-ink-muted transition-colors hover:text-ink"
+          >
+            Feedback
+          </Link>
+
+          <Link
+            href="/cart"
+            className="relative text-ink-muted transition-colors hover:text-ink"
+          >
+            Keranjang
+            {totalItems > 0 && (
+              <span className="absolute -right-3.5 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-brass px-1 font-mono text-[10px] font-semibold text-paper">
+                {totalItems}
+              </span>
+            )}
+          </Link>
+
+          {isAuthenticated ? (
+            <Link
+              href="/profile"
+              className="max-w-28 truncate rounded-md border border-line-strong px-3 py-1.5 text-ink transition-colors hover:border-ink sm:max-w-none"
+            >
+              {user?.name ?? "Profil"}
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="rounded-md bg-till px-3.5 py-1.5 text-paper transition-colors hover:bg-till-dark"
+            >
+              Masuk
+            </Link>
+          )}
         </nav>
       </div>
     </header>

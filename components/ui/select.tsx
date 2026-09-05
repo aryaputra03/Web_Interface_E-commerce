@@ -29,7 +29,7 @@ export function Select({
       {label && (
         <label
           htmlFor={selectId}
-          className="block text-sm font-medium text-slate-700"
+          className="block text-sm font-medium text-ink"
         >
           {label}
         </label>
@@ -38,13 +38,13 @@ export function Select({
       <select
         id={selectId}
         className={cn(
-          "h-10 w-full rounded-lg border bg-white px-3 text-sm",
-          "text-slate-900 outline-none",
-          "focus:ring-2 focus:ring-slate-100",
+          "h-10 w-full rounded-md border bg-paper-raised px-3 text-sm",
+          "text-ink outline-none transition-colors duration-150",
+          "focus:ring-2 focus:ring-offset-0",
           error
-            ? "border-red-500 focus:border-red-500"
-            : "border-slate-300 focus:border-slate-500",
-          "disabled:cursor-not-allowed disabled:bg-slate-100",
+            ? "border-brick focus:border-brick focus:ring-brick-tint"
+            : "border-line-strong focus:border-till focus:ring-till-tint",
+          "disabled:cursor-not-allowed disabled:bg-till-tint disabled:text-ink-muted",
           className,
         )}
         aria-invalid={!!error}
@@ -61,7 +61,7 @@ export function Select({
         ))}
       </select>
 
-      {error && <p className="text-xs text-red-600">{error}</p>}
+      {error && <p className="text-xs text-brick">{error}</p>}
     </div>
   );
 }

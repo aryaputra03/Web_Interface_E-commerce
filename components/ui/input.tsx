@@ -17,7 +17,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-sm font-semibold text-[var(--depths)]"
+            className="block text-sm font-medium text-ink"
           >
             {label}
           </label>
@@ -27,14 +27,14 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            "h-11 w-full rounded-xl border bg-white/85 px-3.5 text-sm shadow-sm",
-            "text-[var(--ink)] placeholder:text-[var(--muted-ink)]",
-            "outline-none transition-all duration-200",
+            "h-11 w-full rounded-md border bg-paper-raised px-3.5 text-sm",
+            "text-ink placeholder:text-ink-muted/70",
+            "outline-none transition-colors duration-150",
             "focus:ring-2 focus:ring-offset-0",
             error
-              ? "border-red-500 focus:border-red-500 focus:ring-red-100"
-              : "border-[var(--mist)] focus:border-[var(--horizon)] focus:ring-[var(--breeze)]",
-            "disabled:cursor-not-allowed disabled:bg-[var(--breeze)]",
+              ? "border-brick focus:border-brick focus:ring-brick-tint"
+              : "border-line-strong focus:border-till focus:ring-till-tint",
+            "disabled:cursor-not-allowed disabled:bg-till-tint disabled:text-ink-muted",
             className,
           )}
           aria-invalid={!!error}
@@ -42,9 +42,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         />
 
         {error ? (
-          <p className="text-xs text-red-600">{error}</p>
+          <p className="text-xs text-brick">{error}</p>
         ) : helperText ? (
-          <p className="text-xs text-slate-500">{helperText}</p>
+          <p className="text-xs text-ink-muted">{helperText}</p>
         ) : null}
       </div>
     );

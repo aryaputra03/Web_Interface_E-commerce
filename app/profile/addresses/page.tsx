@@ -14,21 +14,21 @@ export default function ProfileAddressesPage() {
   return (
     <div className="mx-auto max-w-lg px-4 py-8">
       <div className="mb-1 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Alamat Saya</h1>
+        <h1 className="text-2xl font-semibold text-ink">Alamat Saya</h1>
         <button
           type="button"
           onClick={() => setShowForm((value) => !value)}
-          className="text-sm text-blue-600 hover:underline"
+          className="text-sm text-till hover:underline"
         >
           {showForm ? "Batal" : "+ Tambah Alamat"}
         </button>
       </div>
-      <p className="mb-6 text-sm text-slate-500">
+      <p className="mb-6 text-sm text-ink-muted">
         Dipakai saat checkout online.
       </p>
 
       {showForm && (
-        <div className="mb-6 rounded-lg border border-slate-200 p-4">
+        <div className="mb-6 rounded-lg border border-line-strong bg-paper-raised p-4">
           <AddressForm
             isSubmitting={createMutation.isPending}
             submitError={

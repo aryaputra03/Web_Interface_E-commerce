@@ -1,12 +1,40 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { useToast } from "@/components/ui/Toast";
 import { useAddToCart } from "../hooks/useAddToCart";
 
-export function AddToCartButton({ productId, disabled }: { productId: string; disabled?: boolean }) {
-  const [added, setAdded] = useState(false);
+export function AddToCartButton({
+  productId,
+  disabled,
+  size = "md",
+  compact = false,
+}: {
+  productId: string;
+  disabled?: boolean;
+  size?: "sm" | "md" | "lg";
+  compact?: boolean;
+}) {
   const addToCartMutation = useAddToCart();
-  function handleClick() { addToCartMutation.mutate({ productId, quantity: 1 }, { onSuccess: () => { setAdded(true); setTimeout(() => setAdded(false), 1500); } }); }
-  return <Button type="button" onClick={handleClick} isLoading={addToCartMutation.isPending} disabled={disabled}>{added ? "Ditambahkan!" : "Tambah ke Keranjang"}</Button>;
+  const { toast } = useToast();
+
+  function handleClick() {
+    addToCartMutation.mutate(
+      { productId, quantity: 1 },
+      { onSuccess: () => toast("Ditambahkan ke keranjang.", "success", 2000) },
+    );
+  }
+
+  return (
+    <Button
+      type="button"
+      size={size}
+      onClick={handleClick}
+      isLoading={addToCartMutation.isPending}
+      disabled={disabled}
+      className={compact ? "w-full" : undefined}
+    >
+      {compact ? "+ Keranjang" : "Tambah ke Keranjang"}
+    </Button>
+  );
 }

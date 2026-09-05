@@ -13,24 +13,13 @@ export function ErrorMessage({
     <div
       role="alert"
       className={cn(
-        "animate-float-in rounded-2xl border border-red-200 bg-red-50/90 px-4 py-3 shadow-sm",
-        "text-sm text-red-700",
+        "animate-print-in rounded-md border border-brick/30 bg-brick-tint px-4 py-3",
+        "text-sm text-brick",
         className,
       )}
     >
-      <div className="flex items-start gap-3">
-        <span
-          className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-100 font-bold text-red-600"
-          aria-hidden="true"
-        >
-          !
-        </span>
-
-        <div>
-          <p className="font-medium">Terjadi kesalahan</p>
-          <p className="mt-1 text-red-600">{message}</p>
-        </div>
-      </div>
+      <p className="font-medium">Terjadi kesalahan</p>
+      <p className="mt-0.5">{message}</p>
     </div>
   );
 }

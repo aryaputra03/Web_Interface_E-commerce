@@ -30,28 +30,35 @@ export default function CheckoutPage() {
         },
       },
     );
+
   if (step === "success" && order)
     return (
       <div className="mx-auto max-w-lg px-4 py-8">
-        <h1 className="mb-1 text-2xl font-semibold">Pembayaran Berhasil</h1>
-        <p className="mb-6 text-sm text-slate-500">
+        <h1 className="mb-1 text-2xl font-semibold text-ink">
+          Pembayaran Berhasil
+        </h1>
+        <p className="mb-6 text-sm text-ink-muted">
           Pesanan kamu sudah dibuat dan stok sudah diperbarui di sistem.
         </p>
         <OrderDetail order={order} />
         <Link
           href="/profile/orders"
-          className="mt-6 block text-center text-sm text-blue-600 hover:underline"
+          className="mt-6 block text-center text-sm text-till hover:underline"
         >
           Lihat Riwayat Pesanan
         </Link>
       </div>
     );
+
   if (step === "awaiting-payment" && order && paymentId)
     return (
       <div className="mx-auto max-w-lg px-4 py-8">
-        <h1 className="mb-1 text-2xl font-semibold">Selesaikan Pembayaran</h1>
-        <p className="mb-6 text-sm text-slate-500">
-          Pesanan <span className="font-medium">{order.orderCode}</span> sudah
+        <h1 className="mb-1 text-2xl font-semibold text-ink">
+          Selesaikan Pembayaran
+        </h1>
+        <p className="mb-6 text-sm text-ink-muted">
+          Pesanan{" "}
+          <span className="font-medium text-ink">{order.orderCode}</span> sudah
           dibuat — sisa satu langkah lagi.
         </p>
         <OrderDetail order={order} />
@@ -63,26 +70,30 @@ export default function CheckoutPage() {
         </div>
       </div>
     );
+
   return (
     <div className="mx-auto max-w-lg px-4 py-8">
-      <h1 className="mb-6 text-2xl font-semibold">Checkout</h1>
+      <h1 className="mb-6 text-2xl font-semibold text-ink">Checkout</h1>
       {isLoading ? (
-        <p className="text-sm text-slate-400">Memuat keranjang...</p>
+        <p className="text-sm text-ink-muted">Memuat keranjang...</p>
       ) : items.length === 0 ? (
-        <p className="text-sm text-slate-400">Keranjang masih kosong.</p>
+        <p className="text-sm text-ink-muted">Keranjang masih kosong.</p>
       ) : (
         <>
-          <div className="mb-6">
-            {items.map((item) => (
-              <CartItem key={item.id} item={item} />
+          <div className="mb-6 rounded-lg border border-line-strong bg-paper-raised px-4">
+            {items.map((item, index) => (
+              <div key={item.id}>
+                {index > 0 && <div className="till-tape" />}
+                <CartItem item={item} />
+              </div>
             ))}
           </div>
-          <div className="mb-6 flex justify-between text-base font-semibold">
+          <div className="mb-6 flex justify-between font-mono text-base font-semibold text-ink">
             <span>Total</span>
             <span>{formatCurrency(cart?.totalPrice ?? 0)}</span>
           </div>
           {createOrderMutation.isError && (
-            <p className="mb-4 text-sm text-red-600">
+            <p className="mb-4 text-sm text-brick">
               Tidak dapat membuat pesanan. Coba lagi.
             </p>
           )}

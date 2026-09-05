@@ -88,10 +88,10 @@ function ToastItem({
   }, [toast.duration, onClose]);
 
   const variants: Record<ToastVariant, string> = {
-    success: "border-emerald-200 bg-emerald-50 text-emerald-800",
-    error: "border-red-200 bg-red-50 text-red-800",
-    warning: "border-amber-200 bg-amber-50 text-amber-800",
-    info: "border-[var(--mist)] bg-[var(--breeze)] text-[var(--depths)]",
+    success: "border-till/30 bg-till-tint text-till-dark",
+    error: "border-brick/30 bg-brick-tint text-brick",
+    warning: "border-brass/30 bg-brass-tint text-brass-dark",
+    info: "border-line-strong bg-paper-raised text-ink",
   };
 
   return (
@@ -99,7 +99,7 @@ function ToastItem({
       role="alert"
       className={cn(
         "flex items-start justify-between gap-4",
-        "animate-float-in rounded-2xl border px-4 py-3 shadow-xl backdrop-blur",
+        "animate-print-in rounded-md border px-4 py-3",
         "text-sm font-medium",
         variants[toast.variant],
       )}

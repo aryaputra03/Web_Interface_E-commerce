@@ -12,14 +12,15 @@ export function CartSummary({
   totalPrice: number;
 }) {
   return (
-    <div className="rounded-lg border border-slate-200 p-4">
-      <div className="flex justify-between text-sm text-slate-500">
+    <div className="rounded-lg border border-line-strong bg-paper-raised p-4">
+      <div className="flex justify-between text-sm text-ink-muted">
         <span>Total item</span>
-        <span>{totalItems}</span>
+        <span className="font-mono">{totalItems}</span>
       </div>
-      <div className="mt-1 flex justify-between text-base font-semibold">
+      <div className="till-tape my-3" />
+      <div className="flex justify-between text-base font-semibold text-ink">
         <span>Total</span>
-        <span>{formatCurrency(totalPrice)}</span>
+        <span className="font-mono">{formatCurrency(totalPrice)}</span>
       </div>
       <Link href="/checkout" className="mt-4 block">
         <Button type="button" className="w-full" disabled={totalItems === 0}>

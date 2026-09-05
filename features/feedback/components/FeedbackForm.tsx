@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 
 import { ErrorMessage } from "@/components/feedback-ui/ErrorMessage";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
 import { useRateLimitCountdown } from "@/lib/hooks/useRateLimitCountdown";
 
 import { useSubmitFeedback } from "../hooks/useSubmitFeedback";
@@ -41,114 +41,49 @@ export function FeedbackForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
-      {/* Nama */}
-      <Input label="Nama" error={errors.name?.message} {...register("name")} />
-
-      {/* Email */}
-      <Input
-        label="Email"
-        type="email"
-        error={errors.email?.message}
-        {...register("email")}
+      <Select
+        label="Kategori"
+        error={errors.category?.message}
+        {...register("category")}
+        options={[
+          { label: "Pilih kategori", value: "" },
+          ...CATEGORY_OPTIONS.map((category) => ({
+            label: category,
+            value: category,
+          })),
+        ]}
       />
 
-      {/* Kategori */}
-      <div className="space-y-1.5">
-        <label
-          htmlFor="feedback-category"
-          className="block text-sm font-medium text-slate-700"
-        >
-          Kategori
-        </label>
-
-        <select
-          id="feedback-category"
-          className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-slate-100"
-          {...register("category")}
-        >
-          <option value="">Pilih kategori</option>
-
-          {CATEGORY_OPTIONS.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-
-        {errors.category?.message && (
-          <p className="text-xs text-red-600">{errors.category.message}</p>
-        )}
-      </div>
-
-      {/* Rating */}
-      <div className="space-y-1.5">
-        <label
-          htmlFor="feedback-rating"
-          className="block text-sm font-medium text-slate-700"
-        >
-          Rating (opsional)
-        </label>
-
-        <select
-          id="feedback-rating"
-          className="h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-slate-100"
-          {...register("rating", {
-            setValueAs: (value) => (value === "" ? undefined : Number(value)),
-          })}
-        >
-          <option value="">Pilih rating</option>
-
-          {[1, 2, 3, 4, 5].map((rating) => (
-            <option key={rating} value={rating}>
-              {rating} bintang
-            </option>
-          ))}
-        </select>
-
-        {errors.rating?.message && (
-          <p className="text-xs text-red-600">{errors.rating.message}</p>
-        )}
-      </div>
-
-      {/* Pesan */}
       <div className="space-y-1.5">
         <label
           htmlFor="feedback-message"
-          className="block text-sm font-medium text-slate-700"
+          className="block text-sm font-medium text-ink"
         >
           Pesan
         </label>
-
         <textarea
           id="feedback-message"
           rows={4}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-slate-100"
+          className="w-full rounded-md border border-line-strong bg-paper-raised px-3 py-2 text-sm text-ink outline-none transition-colors focus:border-till focus:ring-2 focus:ring-till-tint"
           {...register("message")}
         />
-
         {errors.message?.message && (
-          <p className="text-xs text-red-600">{errors.message.message}</p>
+          <p className="text-xs text-brick">{errors.message.message}</p>
         )}
       </div>
 
-      {/* Error */}
       {submitMutation.isError && !isRateLimited && (
         <ErrorMessage message="Tidak dapat mengirim feedback. Coba lagi." />
       )}
-
-      {/* Rate limit */}
       {isRateLimited && (
         <ErrorMessage
           message={`Terlalu banyak percobaan. Coba lagi dalam ${cooldownSeconds} detik.`}
         />
       )}
-
-      {/* Success */}
       {submitMutation.isSuccess && (
-        <p className="text-sm text-green-600">Terima kasih atas masukannya!</p>
+        <p className="text-sm text-till-dark">Terima kasih atas masukannya!</p>
       )}
 
-      {/* Submit */}
       <Button
         type="submit"
         isLoading={submitMutation.isPending}
