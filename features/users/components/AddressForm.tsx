@@ -5,7 +5,11 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@/components/feedback-ui/ErrorMessage";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
-import { addressSchema, type AddressSchema } from "../schemas/user.schema";
+import {
+  addressSchema,
+  type AddressFormInput,
+  type AddressSchema,
+} from "../schemas/user.schema";
 
 interface AddressFormProps {
   defaultValues?: Partial<AddressSchema>;
@@ -26,7 +30,7 @@ export function AddressForm({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<AddressSchema>({
+  } = useForm<AddressFormInput, unknown, AddressSchema>({
     resolver: zodResolver(addressSchema),
     defaultValues,
   });

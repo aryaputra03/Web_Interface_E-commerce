@@ -7,5 +7,4 @@ export * from "./modal";
 export * from "./pagination";
 export * from "./select";
 export * from "./skeleton";
-export * from "./table";
 export * from "./Toast";

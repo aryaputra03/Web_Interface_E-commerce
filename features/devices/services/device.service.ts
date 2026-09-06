@@ -9,19 +9,27 @@ import type {
 
 export const deviceService = {
   async getAll() {
-    const { data } = await axiosInstance.get<ApiResponse<Device[]>>("/devices");
+    const { data } =
+      await axiosInstance.get<ApiResponse<{ devices: Device[] }>>("/devices");
     return data;
   },
   async register(payload: RegisterDevicePayload) {
-    const { data } = await axiosInstance.post<ApiResponse<RegisterDeviceResponseData>>("/devices", payload);
+    const { data } = await axiosInstance.post<
+      ApiResponse<RegisterDeviceResponseData>
+    >("/devices", payload);
     return data;
   },
   async toggleStatus(id: string, isActive: boolean) {
-    const { data } = await axiosInstance.patch<ApiResponse<Device>>(`/devices/${id}/status`, { isActive });
+    const { data } = await axiosInstance.patch<ApiResponse<Device>>(
+      `/devices/${id}/status`,
+      { isActive },
+    );
     return data;
   },
   async regenerateKey(id: string) {
-    const { data } = await axiosInstance.post<ApiResponse<RegenerateKeyResponseData>>(`/devices/${id}/regenerate-key`);
+    const { data } = await axiosInstance.post<
+      ApiResponse<RegenerateKeyResponseData>
+    >(`/devices/${id}/regenerate-key`);
     return data;
   },
 };

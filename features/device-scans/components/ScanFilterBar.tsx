@@ -1,6 +1,6 @@
 "use client";
-import { Input } from "@/components/ui/Input";
-import { Select } from "@/components/ui/Select";
+import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/Button";
 import type {
   DeviceScanFilters,
@@ -35,13 +35,15 @@ export function ScanFilterBar({ filters, onChange }: ScanFilterBarProps) {
         label="Device ID"
         placeholder="mis. KASIR-01"
         value={filters.deviceId ?? ""}
-        onChange={(e) => update({ deviceId: e.target.value || undefined })}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          update({ deviceId: e.target.value || undefined })
+        }
       />
       <Select
         label="Status"
         options={STATUS_OPTIONS}
         value={filters.status ?? ""}
-        onChange={(e) =>
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
           update({
             status: (e.target.value || undefined) as ScanStatus | undefined,
           })
@@ -51,7 +53,7 @@ export function ScanFilterBar({ filters, onChange }: ScanFilterBarProps) {
         label="Mode"
         options={MODE_OPTIONS}
         value={filters.mode ?? ""}
-        onChange={(e) =>
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
           update({
             mode: (e.target.value || undefined) as ScanMode | undefined,
           })
@@ -61,13 +63,17 @@ export function ScanFilterBar({ filters, onChange }: ScanFilterBarProps) {
         label="Dari tanggal"
         type="date"
         value={filters.dateFrom ?? ""}
-        onChange={(e) => update({ dateFrom: e.target.value || undefined })}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          update({ dateFrom: e.target.value || undefined })
+        }
       />
       <Input
         label="Sampai tanggal"
         type="date"
         value={filters.dateTo ?? ""}
-        onChange={(e) => update({ dateTo: e.target.value || undefined })}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          update({ dateTo: e.target.value || undefined })
+        }
       />
       <Button type="button" variant="secondary" size="sm" onClick={handleReset}>
         Reset Filter

@@ -1,4 +1,4 @@
-import { Badge } from "@/components/ui/Badge";
+import { Badge } from "@/components/ui/badge";
 import type { ScanStatus } from "../types/deviceScan.types";
 
 export interface ScanStatusBadgeProps {
@@ -6,6 +6,6 @@ export interface ScanStatusBadgeProps {
 }
 
 export function ScanStatusBadge({ status }: ScanStatusBadgeProps) {
-  if (status === "matched") return <Badge color="green">Matched</Badge>;
-  return <Badge color="yellow">Unmatched</Badge>;
+  if (status === "matched") return <Badge variant="success">Matched</Badge>;
+  return <Badge variant="warning">Unmatched</Badge>;
 }

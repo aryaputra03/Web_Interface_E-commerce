@@ -11,12 +11,12 @@ import type {
 export const userService = {
   async getMe() {
     const { data } =
-      await axiosInstance.get<ApiResponse<UserProfile>>("/users/me");
+      await axiosInstance.get<ApiResponse<{ user: UserProfile }>>("/users/me");
     return data;
   },
 
   async updateMe(payload: UpdateProfilePayload) {
-    const { data } = await axiosInstance.patch<ApiResponse<UserProfile>>(
+    const { data } = await axiosInstance.patch<ApiResponse<{ user: UserProfile }>>(
       "/users/me",
       payload,
     );
@@ -24,21 +24,21 @@ export const userService = {
   },
 
   async createAddress(payload: CreateAddressPayload) {
-    const { data } = await axiosInstance.post<
+    const { data } = await axiosInstance.post
       ApiResponse<{ addresses: Address[] }>
     >("/users/me/addresses", payload);
     return data;
   },
 
   async updateAddress(id: string, payload: UpdateAddressPayload) {
-    const { data } = await axiosInstance.patch<
+    const { data } = await axiosInstance.patch
       ApiResponse<{ addresses: Address[] }>
     >(`/users/me/addresses/${id}`, payload);
     return data;
   },
 
   async deleteAddress(id: string) {
-    const { data } = await axiosInstance.delete<
+    const { data } = await axiosInstance.delete
       ApiResponse<{ addresses: Address[] }>
     >(`/users/me/addresses/${id}`);
     return data;

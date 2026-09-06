@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
-import { Modal } from "@/components/ui/Modal";
-import { Input } from "@/components/ui/Input";
+import { Modal } from "@/components/ui/modal";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/Button";
 import { LoadingSpinner } from "@/components/feedback-ui/LoadingSpinner";
-import { EmptyState } from "@/components/ui/EmptyState";
+import { EmptyState } from "@/components/ui/empty-state";
 import { useToast } from "@/components/ui/Toast";
 import { useProducts } from "@/features/products";
 import { useMapProduct } from "../hooks/useMapProduct";
@@ -23,7 +23,7 @@ export function MapProductModal({ scan, onClose }: MapProductModalProps) {
     limit: 10,
   });
   const { mutate, isPending } = useMapProduct();
-  const { showToast } = useToast();
+  const { toast } = useToast();
 
   const handleSelect = (productId: string) => {
     if (!scan) return;
@@ -31,11 +31,11 @@ export function MapProductModal({ scan, onClose }: MapProductModalProps) {
       { id: scan.id, payload: { productId } },
       {
         onSuccess: () => {
-          showToast("Scan berhasil dipetakan ke produk.", "success");
+          toast("Scan berhasil dipetakan ke produk.", "success");
           onClose();
         },
         onError: (error) =>
-          showToast(
+          toast(
             extractApiErrorMessage(error, "Gagal memetakan produk."),
             "error",
           ),
@@ -44,19 +44,21 @@ export function MapProductModal({ scan, onClose }: MapProductModalProps) {
   };
 
   return (
-    <Modal isOpen={!!scan} onClose={onClose} title="Petakan ke Produk">
+    <Modal open={!!scan} onClose={onClose} title="Petakan ke Produk">
       {scan && (
         <div className="flex flex-col gap-4">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-ink-muted">
             Barcode:{" "}
-            <span className="font-mono font-medium text-gray-900">
+            <span className="font-mono font-medium text-ink">
               {scan.barcode}
             </span>
           </p>
           <Input
             placeholder="Cari nama produk..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setSearch(e.target.value)
+            }
             autoFocus
           />
           <div className="max-h-64 overflow-y-auto">
@@ -72,17 +74,17 @@ export function MapProductModal({ scan, onClose }: MapProductModalProps) {
               />
             )}
             {!isLoading && data && data.items.length > 0 && (
-              <ul className="flex flex-col divide-y divide-gray-100">
+              <ul className="flex flex-col divide-y divide-line">
                 {data.items.map((product) => (
                   <li
                     key={product.id}
                     className="flex items-center justify-between gap-2 py-2"
                   >
                     <div>
-                      <p className="text-sm font-medium text-gray-900">
+                      <p className="text-sm font-medium text-ink">
                         {product.name}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-ink-muted">
                         {formatCurrency(product.price)} · {product.barcode}
                       </p>
                     </div>
